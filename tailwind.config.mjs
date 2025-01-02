@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -91,8 +92,10 @@ export default {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        sans: ['Roboto', 'sans-serif'], // Use your chosen font
+        anton: ['Anton', 'sans-serif'],
+        londrina: ['Londrina', 'sans-serif'],
+        pacifico: ['Pacifico', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {
