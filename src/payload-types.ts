@@ -16,6 +16,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    profiles: Profile;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -31,6 +32,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    profiles: ProfilesSelect<false> | ProfilesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -433,12 +435,8 @@ export interface Post {
  */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: string | null;
-  gender?: ('male' | 'female' | 'other') | null;
-  phoneNumber?: string | null;
   role: 'admin' | 'editor' | 'subscriber';
+  profile?: (number | null) | Profile;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -449,6 +447,21 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profiles".
+ */
+export interface Profile {
+  id: number;
+  user: number | User;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string | null;
+  gender?: ('male' | 'female' | 'other') | null;
+  phoneNumber?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -748,6 +761,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'profiles';
+        value: number | Profile;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1088,12 +1105,8 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  firstName?: T;
-  lastName?: T;
-  dateOfBirth?: T;
-  gender?: T;
-  phoneNumber?: T;
   role?: T;
+  profile?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1103,6 +1116,20 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profiles_select".
+ */
+export interface ProfilesSelect<T extends boolean = true> {
+  user?: T;
+  firstName?: T;
+  lastName?: T;
+  dateOfBirth?: T;
+  gender?: T;
+  phoneNumber?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
