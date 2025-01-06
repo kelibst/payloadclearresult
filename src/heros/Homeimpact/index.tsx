@@ -1,7 +1,7 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'; // Import from next/image
 import type { Page, Partner } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
@@ -13,6 +13,8 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
   const { setHeaderTheme } = useHeaderTheme()
   const [partners, setPartners] = useState<Partner[] | null>(null);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const marqueeRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setHeaderTheme('dark')
     const fetchPartners = async () => {
@@ -24,7 +26,30 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
         // Handle error, e.g., display an error message
       }
     };
-  })
+    fetchPartners(); // Call the function!
+  }, [setHeaderTheme])
+
+  useEffect(() => {
+    if (!partners || partners.length <= 3) return; // No need to scroll if 3 or fewer partners
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % partners.length);
+    }, 3000); // Adjust scroll speed here (3000ms = 3 seconds)
+
+    return () => clearInterval(interval);
+  }, [partners]);
+
+  useEffect(() => {
+    if (!marqueeRef.current || !partners || partners.length <= 3) return;
+
+    const marquee = marqueeRef.current;
+    marquee.style.transform = `translateX(-${currentIndex * (100 / partners.length)}%)`; // Use percentage for dynamic width
+
+    // Smooth scrolling transition (optional)
+    marquee.style.transition = 'transform 0.5s ease-in-out';
+
+
+  }, [currentIndex, partners]);
 
   return (
     <div
@@ -52,15 +77,16 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
         </ul>
       )}
     </div>
+    {partners && partners.length > 0 && (
     <div className="relative z-10 mt-8">
-        <h2 className="text-2xl text-white font-bold mb-4">Our Partners</h2>
+        <h2 className="text-2xl text-white text-center font-bold mb-4">Our Partners</h2>
         <div className="flex flex-wrap justify-center gap-4">
 
           {/* Conditionally render partners */}
-          {partners ? (
+          {partners.length > 0 ? (
              partners.map((partner) => (
                <div key={partner.id} className="flex flex-col items-center">
-                {/* {partner.logo && <Media media={partner.logo} className="w-24 h-24 object-contain" />} */}
+                {partner.logo && <Image src={partner.logo.url} width={200} height={200} alt={partner.name} className="w-24 h-24 mb-2" />}
                 <p className="text-white mt-2">{partner.name}</p>
                 {partner.website && (
                   <a href={partner.website} target="_blank" rel="noopener noreferrer" className="text-white">
@@ -76,6 +102,7 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
 
         </div>
       </div>
+    )}
   </div>
   )
 }
