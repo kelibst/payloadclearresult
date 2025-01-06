@@ -17,6 +17,7 @@ export interface Config {
     categories: Category;
     users: User;
     profiles: Profile;
+    partners: Partner;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -33,6 +34,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     profiles: ProfilesSelect<false> | ProfilesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -664,6 +666,18 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  name: string;
+  logo: number | Media;
+  website?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -765,6 +779,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'profiles';
         value: number | Profile;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1128,6 +1146,17 @@ export interface ProfilesSelect<T extends boolean = true> {
   dateOfBirth?: T;
   gender?: T;
   phoneNumber?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }
