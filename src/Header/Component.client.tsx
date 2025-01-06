@@ -30,7 +30,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   }, [headerTheme])
 
   return (
-    <header className="">
+    <header className="bg-background">
       <div className="py-4 px-6 sm:px-8 lg:px-12 flex items-center justify-between">
         <Link className='max-w-[100px]' href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
