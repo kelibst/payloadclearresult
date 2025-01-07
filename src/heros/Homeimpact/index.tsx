@@ -30,26 +30,22 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
   }, [setHeaderTheme])
 
   useEffect(() => {
-    if (!partners || partners.length <= 3) return; // No need to scroll if 3 or fewer partners
+    if (!partners || partners.length <= 2) return; // No scrolling if 2 or fewer partners
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % partners.length);
-    }, 3000); // Adjust scroll speed here (3000ms = 3 seconds)
+    }, 3000); // Adjust scroll speed
 
     return () => clearInterval(interval);
   }, [partners]);
 
   useEffect(() => {
-    if (!marqueeRef.current || !partners || partners.length <= 3) return;
-
+    if (!marqueeRef.current || !partners || partners.length <= 2) return;
     const marquee = marqueeRef.current;
-    marquee.style.transform = `translateX(-${currentIndex * (100 / partners.length)}%)`; // Use percentage for dynamic width
-
-    // Smooth scrolling transition (optional)
-    marquee.style.transition = 'transform 0.5s ease-in-out';
-
-
+    marquee.style.transform = `translateX(-${currentIndex * 50}%)`; // 50% for 2 partners
+    marquee.style.transition = 'transform 0.5s ease-in-out'; // Transition effect
   }, [currentIndex, partners]);
+
 
   return (
     <div
@@ -78,28 +74,42 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
       )}
     </div>
     {partners && partners.length > 0 && (
-    <div className="relative z-10 mt-8">
-        <h2 className="text-2xl text-white text-center font-bold mb-4">Our Partners</h2>
-        <div className="flex flex-wrap justify-center gap-4">
-
-          {/* Conditionally render partners */}
-          {partners.length > 0 ? (
-             partners.map((partner) => (
-               <div key={partner.id} className="flex flex-col items-center">
-                {partner.logo && <Image src={partner.logo.url} width={200} height={200} alt={partner.name} className="w-24 h-24 mb-2" />}
-                <p className="text-white mt-2">{partner.name}</p>
-                {partner.website && (
-                  <a href={partner.website} target="_blank" rel="noopener noreferrer" className="text-white">
-                    Visit Website
-                  </a>
-                )}
-               </div>
-             ))
-
-          ) : (
-            <p className="text-white">Loading partners...</p>
-          )}
-
+      <div className="relative z-10 mt-8 overflow-hidden">
+        <h2 className="text-2xl text-white text-center font-bold mb-4">
+          Our Partners
+        </h2>
+        <div
+          className="flex gap-4 transition-transform duration-500 ease-in-out" // Apply transition here
+          ref={marqueeRef}
+          style={{ transform: `translateX(-${currentIndex * (partners.length > 2 ? (100/partners.length) * 2 : 50)}%)`}}
+        >
+          {partners.slice(0, partners.length <=2 ? partners.length : 6).map((partner) => (
+            <div
+              key={partner.id}
+              className="flex flex-col items-center w-[calc(100%/2)] shrink-0" // 50% width for 2 partners
+            >
+              {partner.logo && (
+                <Image
+                  src={partner.logo.url}
+                  width={100}
+                  height={100}
+                  alt={partner.name}
+                  className="w-24 h-24 mb-2 object-contain"
+                />
+              )}
+              <p className="text-white mt-2">{partner.name}</p>
+              {partner.website && (
+                <a
+                  href={partner.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white"
+                >
+                  Visit Website
+                </a>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     )}
