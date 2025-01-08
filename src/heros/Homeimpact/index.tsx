@@ -1,6 +1,6 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'; // Import from next/image
 import type { Page, Partner } from '@/payload-types'
 
@@ -48,6 +48,7 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
 
 
   return (
+    <div className="relative">
     <div
     className="relative flex flex-col items-center justify-center w-full h-screen bg-cover bg-center parallax-bg"
     style={{ backgroundImage: `url(${media?.url})` }}
@@ -73,8 +74,9 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
         </ul>
       )}
     </div>
-    {partners && partners.length > 0 && (
-      <div className="relative z-10 mt-8 overflow-hidden">
+  </div>
+  {partners && partners.length > 0 && (
+      <div className="absolute bottom-1 w-full mt-8 overflow-hidden">
         <h2 className="text-2xl text-white text-center font-bold mb-4">
           Our Partners
         </h2>

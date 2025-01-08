@@ -35,13 +35,13 @@ export default {
         sm: '1rem',
         xl: '2rem',
       },
-      screens: {
-        '2xl': '86rem',
-        lg: '64rem',
-        md: '48rem',
-        sm: '40rem',
-        xl: '80rem',
-      },
+      // screens: {
+      //   '2xl': '86rem',
+      //   lg: '64rem',
+      //   md: '48rem',
+      //   sm: '40rem',
+      //   xl: '80rem',
+      // },
     },
     extend: {
       animation: {
