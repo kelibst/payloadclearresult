@@ -694,9 +694,31 @@ export interface BannerBlock {
  * via the `definition` "HomeBannerBlock".
  */
 export interface HomeBannerBlock {
-  title: string;
-  description: string;
+  title?: string | null;
+  description?: string | null;
   image: number | Media;
+  imagePosition?: ('left' | 'right' | 'center') | null;
+  contentPosition?: ('left' | 'center' | 'right') | null;
+  showContent?: boolean | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'homeBanner';
@@ -1034,6 +1056,24 @@ export interface HomeBannerBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
+  imagePosition?: T;
+  contentPosition?: T;
+  showContent?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
