@@ -32,7 +32,7 @@ export function InfiniteSlider({
   useEffect(() => {
     let controls;
     const size = direction === 'horizontal' ? width : height;
-    const contentSize = size + gap;
+    const contentSize = (size + gap)^2;
     const from = reverse ? -contentSize / 2 : 0;
     const to = reverse ? 0 : -contentSize / 2;
 
@@ -88,7 +88,7 @@ export function InfiniteSlider({
   return (
     <div className={cn('overflow-hidden', className)}>
       <motion.div
-        className='flex w-max justify-between'
+        className='w-full flex justify-between'
         style={{
           ...(direction === 'horizontal'
             ? { x: translation }

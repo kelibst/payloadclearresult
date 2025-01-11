@@ -54,12 +54,11 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
       </div>
 
       {partners && partners.length > 0 && (
-        <div className="relative w-full h-full">
-        <div className="absolute bottom-[-80px] w-full mt-8 overflow-hidden left-0 right-0 z-20">
-          <h2 className="text-2xl text-white text-center font-bold mb-4">Our Partners</h2>
-          <InfiniteSlider gap={10} className="h-44"> {/* Adjust height as needed */}
+        <div className="w-full pt-4">
+          {/* <h2 className="text-2xl text-center font-bold mb-4">Our Partners</h2> */}
+          <InfiniteSlider gap={10} className="my-4"> {/* Adjust height as needed */}
             {partners.map((partner) => (
-              <div key={partner.id} className="flex flex-col items-center justify-center shrink-0 w-32 h-full mx-3"> {/* Adjust width as needed */}
+              <div key={partner.id} className="flex items-center justify-center shrink-0 w-auto mx-3"> {/* Adjust width as needed */}
                 {partner.logo && (
                   <Image
                     src={partner.logo.url}
@@ -69,11 +68,10 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
                     className="object-contain"
                   />
                 )}
-                <p className="text-sm text-white text-center">{partner.name}</p>
+                <p className="text-sm text-center">{partner.name}</p>
               </div>
             ))}
           </InfiniteSlider>
-        </div>
         </div>
       )}
     </div>
