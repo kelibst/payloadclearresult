@@ -43,19 +43,14 @@ export const hero: Field = {
       required: true,
     },
     {
-      name: 'richText',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
-      label: false,
+      name: 'heroTitle',
+      type: 'text',
+      label: "Hero Title",
+    },
+    {
+      name: 'heroDescription',
+      type: 'text',
+      label: "Hero Description",
     },
     linkGroup({
       overrides: {
@@ -65,8 +60,9 @@ export const hero: Field = {
     {
       name: 'media',
       type: 'upload',
+      label: 'Hero Image',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact', 'HomeImpact'].includes(type),
       },
       relationTo: 'media',
       required: true,

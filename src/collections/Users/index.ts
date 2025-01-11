@@ -37,12 +37,28 @@ export const Users: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    // Add a relationship field to link to the Profile
     {
-      name: 'profile',
-      type: 'relationship',
-      relationTo: "profiles", // Use the named export
-      unique: true, // Important for one-to-one
+      name: 'firstName',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'dateOfBirth',
+      type: 'date',
+    },
+    {
+      name: 'gender',
+      type: 'select',
+      options: ['male', 'female', 'other'],
+    },
+    {
+      name: 'phoneNumber',
+      type: 'text',
     },
   ],
   timestamps: true,

@@ -9,7 +9,7 @@ import { fetchAllPartners } from './getPartners'
 import { InfiniteSlider } from '@/components/core/infinite-slider';
 
 
-export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) => {
+export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText, heroTitle, heroDescription }) => { 
   const { setHeaderTheme } = useHeaderTheme()
   const [partners, setPartners] = useState<Partner[] | null>(null);
 
@@ -25,20 +25,21 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText }) =
     };
     fetchPartners();
   }, [setHeaderTheme]);
+  console.log(richText, heroTitle, 'richText');
 
   return (
     <div className="relative">
       <div
-        className="relative flex flex-col items-center justify-center w-full h-screen bg-cover bg-center parallax-bg"
+        className="relative flex flex-col items-center justify-center w-full h-screen bg-cover parallax-bg"
         style={{ backgroundImage: `url(${media?.url})` }}
       >
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center w-full h-screen text-foreground animate-fadeIn">
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight font-pacifico text-white">
-            {richText && richText.root.children[0].children[0].text}
+            {heroTitle && heroTitle}
           </h1>
           <p className="mt-4 mb-4 text-lg text-white">
-            {richText && richText.root.children[1].children[0].text}
+            {heroDescription && heroDescription}
           </p>
 
           {Array.isArray(links) && links.length > 0 && (

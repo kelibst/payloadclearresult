@@ -90,21 +90,8 @@ export interface Page {
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'HomeImpact';
-    richText?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
+    heroTitle?: string | null;
+    heroDescription?: string | null;
     links?:
       | {
           link: {
@@ -438,7 +425,11 @@ export interface Post {
 export interface User {
   id: number;
   role: 'admin' | 'editor' | 'subscriber';
-  profile?: (number | null) | Profile;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string | null;
+  gender?: ('male' | 'female' | 'other') | null;
+  phoneNumber?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -449,21 +440,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "profiles".
- */
-export interface Profile {
-  id: number;
-  user: number | User;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: string | null;
-  gender?: ('male' | 'female' | 'other') | null;
-  phoneNumber?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -725,6 +701,21 @@ export interface HomeBannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profiles".
+ */
+export interface Profile {
+  id: number;
+  user: number | User;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string | null;
+  gender?: ('male' | 'female' | 'other') | null;
+  phoneNumber?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
@@ -911,7 +902,8 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
-        richText?: T;
+        heroTitle?: T;
+        heroDescription?: T;
         links?:
           | T
           | {
@@ -1224,7 +1216,11 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   role?: T;
-  profile?: T;
+  firstName?: T;
+  lastName?: T;
+  dateOfBirth?: T;
+  gender?: T;
+  phoneNumber?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
