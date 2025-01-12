@@ -9,7 +9,7 @@ import { fetchAllPartners } from './getPartners'
 import { InfiniteSlider } from '@/components/core/infinite-slider';
 
 
-export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText, heroTitle, heroDescription }) => { 
+export const HomeImpact: React.FC<Page['hero']> = ({ links, media, heroTitle, heroDescription }) => { 
   const { setHeaderTheme } = useHeaderTheme()
   const [partners, setPartners] = useState<Partner[] | null>(null);
 
@@ -25,13 +25,16 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText, her
     };
     fetchPartners();
   }, [setHeaderTheme]);
-  console.log(richText, heroTitle, 'richText');
+  //@ts-expect-error
+  let mediaUrl = media?.url || ''; // Get image URL safely  
+  //@ts-expect-error
+  let partnerLogoUrl = partners?.[0]?.logo?.url || ''; // Get partner logo URL safely
 
   return (
     <div className="relative">
       <div
         className="relative flex flex-col items-center justify-center w-full h-screen bg-cover parallax-bg"
-        style={{ backgroundImage: `url(${media?.url})` }}
+        style={{ backgroundImage: `url(${mediaUrl})` }}
       >
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-center justify-center w-full h-screen text-foreground animate-fadeIn">
@@ -62,7 +65,7 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, richText, her
               <div key={partner.id} className="flex items-center justify-center shrink-0 w-auto mx-3"> {/* Adjust width as needed */}
                 {partner.logo && (
                   <Image
-                    src={partner.logo.url}
+                    src={partnerLogoUrl}
                     alt={partner.name}
                     width={60} // Adjust size
                     height={60} // Adjust size

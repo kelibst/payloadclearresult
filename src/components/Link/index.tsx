@@ -54,6 +54,14 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
       </Link>
     )
   }
+  if (appearance === 'secondary') {
+    return (
+      <Link className={"bg-secondary text-secondary-foreground hover:bg-secondary-hover"} href={href || url || ''} {...newTabProps}>
+        {label && label}
+        {children && children}
+      </Link>
+    )
+  }
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
