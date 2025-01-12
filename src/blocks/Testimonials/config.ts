@@ -2,7 +2,7 @@
 import { Block } from "payload";
 
 export const Testimonials: Block = {
-  slug: 'Testimonials',
+  slug: 'testimonials',
   interfaceName: 'TestimonialsBlock',
   fields: [
     {

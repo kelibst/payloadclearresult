@@ -22,6 +22,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { Banner } from '@/blocks/Banner/config'
 import { HomeBanner } from '@/blocks/HomeBarner/config'
+import { Testimonials } from '@/blocks/Testimonials/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -76,7 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Banner, HomeBanner],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Banner, HomeBanner, Testimonials],
               required: true,
               admin: {
                 initCollapsed: true,

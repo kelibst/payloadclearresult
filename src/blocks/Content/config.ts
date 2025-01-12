@@ -66,6 +66,12 @@ export const Content: Block = {
   interfaceName: 'ContentBlock',
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+      required: false,
+    },
+    {
       name: 'columns',
       type: 'array',
       admin: {
