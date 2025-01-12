@@ -235,6 +235,7 @@ export interface Media {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
+  title?: string | null;
   richText?: {
     root: {
       type: string;
@@ -981,6 +982,7 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
   richText?: T;
   links?:
     | T
