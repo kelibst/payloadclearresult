@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@payloadcms/db-postgres": "latest",
+    "@payloadcms/email-nodemailer": "^3.15.1",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
@@ -34,6 +35,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "add": "^2.0.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
@@ -45,6 +47,7 @@
     "motion": "^11.16.4",
     "next": "^15.0.4",
     "next-sitemap": "^4.2.3",
+    "nodemailer": "^6.9.16",
     "payload": "latest",
     "payload-admin-bar": "^1.0.6",
     "prism-react-renderer": "^2.3.1",
