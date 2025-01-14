@@ -22,8 +22,11 @@ import { getServerSideURL } from './utilities/getURL'
 import { Profiles } from './collections/profiles'
 import { Partners } from './collections/Partners'
 
+import { s3Storage } from '@payloadcms/storage-s3'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
 
 export default buildConfig({
   admin: {
@@ -69,12 +72,29 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Profiles, Partners],
+  collections: [Pages, Posts, Media, Categories, Users, Profiles, Partners ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
+    s3Storage({
+      collections: {
+        media: true,
+        // 'media-with-prefix': {
+        //   prefix,
+        // },
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+        region: process.env.S3_REGION,
+        // ... Other S3 configuration
+      },
+    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
@@ -82,16 +102,16 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   email: nodemailerAdapter({
-    defaultFromAddress: "8366d7001@smtp-brevo.com",
-    defaultFromName: 'Clear Result Consult',
+    defaultFromAddress: "kbooster17@gmail.com",
+    defaultFromName: 'Kekeli',
     // Any Nodemailer transport
-    transport: await nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
+    transportOptions: {
+      host: "in-v3.mailjet.com",
       port: 587,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.MAILJET_API_KEY,
+        pass: process.env.MAILJET_SECRET_KEY,
       },
-    }),
+    },
   }),
 })
