@@ -14,6 +14,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import Comment from '@/components/Comments'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -48,6 +49,16 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+const payload = await getPayload({ config: configPromise });
+const comments = (await payload.find({
+  collection: 'comments',
+  where: {
+      post: {equals: post?.id },
+      status: {equals: 'approved'}
+  },
+  depth: 1, // Important to populate author!
+})).docs
+
   return (
     <article className="pt-16 pb-16">
       <PageClient />
@@ -62,6 +73,16 @@ export default async function Post({ params: paramsPromise }: Args) {
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
+
+          <div className="container mt-8">
+        <h3>Comments</h3>
+        {comments.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+
+        {/* ... conditional comment form rendering ... */}
+      </div>
+
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
               className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"

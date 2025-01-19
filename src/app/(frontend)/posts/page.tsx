@@ -58,6 +58,7 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Posts`,
+    title: `Clear Result Consult - Posts`,
+    description: `Clear Result Consult - Posts`,
   }
 }

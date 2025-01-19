@@ -31,8 +31,6 @@ export const Partners: CollectionConfig = {
       type: 'text',
       label: 'Partner Website', // User-friendly label
     },
-
-
   ],
 }
 

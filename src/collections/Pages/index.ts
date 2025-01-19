@@ -23,14 +23,15 @@ import {
 import { Banner } from '@/blocks/Banner/config'
 import { HomeBanner } from '@/blocks/HomeBarner/config'
 import { Testimonials } from '@/blocks/Testimonials/config'
+import { onlyAdmin } from '@/access/onlyAdmin'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: onlyAdmin,
+    delete: onlyAdmin,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: onlyAdmin,
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

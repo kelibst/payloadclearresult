@@ -54,7 +54,7 @@ export const Users: CollectionConfig = {
     {
       name: 'gender',
       type: 'select',
-      options: ['male', 'female', 'other'],
+      options: ['male', 'female'],
     },
     {
       name: 'phoneNumber',

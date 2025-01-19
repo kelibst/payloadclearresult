@@ -26,14 +26,15 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
+import { adminOrEditor } from '@/access/adminOrEditor'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: adminOrEditor,
+    delete: adminOrEditor,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: adminOrEditor,
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
@@ -73,6 +74,12 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'comments',  // Field name
+      type: 'relationship',
+      relationTo: 'comments', // Relate to your Comments collection
+      hasMany: true, // A post can have many comments
     },
     {
       type: 'tabs',

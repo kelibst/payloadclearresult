@@ -27,8 +27,7 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, heroTitle, he
   }, [setHeaderTheme]);
   //@ts-expect-error
   let mediaUrl = media?.url || ''; // Get image URL safely  
-  //@ts-expect-error
-  let partnerLogoUrl = partners?.[0]?.logo?.url || ''; // Get partner logo URL safely
+
 
   return (
     <div className="relative">
@@ -65,7 +64,7 @@ export const HomeImpact: React.FC<Page['hero']> = ({ links, media, heroTitle, he
               <div key={partner.id} className="flex items-center justify-center shrink-0 w-auto mx-3"> {/* Adjust width as needed */}
                 {partner.logo && (
                   <Image
-                    src={partnerLogoUrl}
+                    src={partner?.logo?.url || ''}
                     alt={partner.name}
                     width={60} // Adjust size
                     height={60} // Adjust size

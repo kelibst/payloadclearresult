@@ -3,6 +3,7 @@ import { CMSLink } from '@/components/Link'
 import { LinkFields } from '@payloadcms/richtext-lexical'
 import Image from 'next/image'
 import classNames from 'classnames'
+import { User, UserIcon } from 'lucide-react'
 
 export type TestimonialsBlock = {
   // Updated type name
@@ -42,16 +43,17 @@ export const TestimonialsBlock: React.FC<TestimonialsBlock> = (props) => {
           <div className="flex justify-end items-center gap-4"> {/* Align items to the right and center */}
             <div className="flex justify-center items-end"> {/* Container for author info */}
                 <p className="font-medium text-right">-{testimonial.author}</p> {/* Align author name to the right */}
-                <div className="relative w-16 h-16 rounded-full overflow-hidden mt-2"> {/* Fixed size for image, overflow hidden */}
+               {testimonial.image?.url ? <div className="relative w-16 h-16 rounded-full overflow-hidden mt-2"> {/* Fixed size for image, overflow hidden */}
                   <Image
                     src={testimonial.image.url}
                     alt={testimonial.image.alt || ''}
                     fill // Fill the container
                     sizes="100vw" // Prevent layout shift
-                    className="rounded-full object-cover" // Ensure image covers circle
+                    className="rounded-full object-cover ml-2" // Ensure image covers circle
                     priority // Optimize loading
                   />
                   </div>
+                  : <UserIcon size={24} className="border border-black ml-2 dark:border-white w-16 h-16 rounded-full" />}
             </div>
           </div>
         </div>

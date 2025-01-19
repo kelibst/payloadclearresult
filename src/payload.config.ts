@@ -23,6 +23,7 @@ import { Profiles } from './collections/profiles'
 import { Partners } from './collections/Partners'
 
 import { s3Storage } from '@payloadcms/storage-s3'
+import { Comments } from './collections/Comments'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -72,7 +73,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Profiles, Partners ],
+  collections: [Pages, Posts, Media, Categories, Users, Profiles, Partners, Comments ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

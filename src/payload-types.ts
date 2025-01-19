@@ -18,6 +18,7 @@ export interface Config {
     users: User;
     profiles: Profile;
     partners: Partner;
+    comments: Comment;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -35,6 +36,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     profiles: ProfilesSelect<false> | ProfilesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -390,6 +392,7 @@ export interface Category {
 export interface Post {
   id: number;
   title: string;
+  comments?: (number | Comment)[] | null;
   content: {
     root: {
       type: string;
@@ -431,6 +434,33 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  post: number | Post;
+  author: number | User;
+  status?: ('pending' | 'approved' | 'rejected') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -439,7 +469,7 @@ export interface User {
   firstName: string;
   lastName: string;
   dateOfBirth?: string | null;
-  gender?: ('male' | 'female' | 'other') | null;
+  gender?: ('male' | 'female') | null;
   phoneNumber?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -865,6 +895,10 @@ export interface PayloadLockedDocument {
         value: number | Partner;
       } | null)
     | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1126,6 +1160,7 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  comments?: T;
   content?: T;
   relatedPosts?: T;
   categories?: T;
@@ -1304,6 +1339,18 @@ export interface PartnersSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
   website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  content?: T;
+  post?: T;
+  author?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
