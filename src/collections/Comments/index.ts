@@ -41,6 +41,31 @@ export const Comments: CollectionConfig = {
         position: 'sidebar'
       },
     },
+    {
+      name: 'content',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+          ]
+        },
+      }),
+      label: false,
+      required: true,
+    },
+    {
+      name: 'createdAt',
+      type: 'date',
+      admin: {
+        readOnly: true, // This is usually read-only
+      },
+    }
     // ... other fields as needed
   ],
 };

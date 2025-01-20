@@ -441,8 +441,23 @@ export interface Comment {
   post: number | Post;
   author: number | User;
   status?: ('pending' | 'approved' | 'rejected') | null;
-  updatedAt: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   createdAt: string;
+  updatedAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1335,8 +1350,9 @@ export interface CommentsSelect<T extends boolean = true> {
   post?: T;
   author?: T;
   status?: T;
-  updatedAt?: T;
+  content?: T;
   createdAt?: T;
+  updatedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

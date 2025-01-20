@@ -49,15 +49,17 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
-const payload = await getPayload({ config: configPromise });
-const comments = (await payload.find({
-  collection: 'comments',
-  where: {
-      post: {equals: post?.id },
-      status: {equals: 'approved'}
-  },
-  depth: 1, // Important to populate author!
-})).docs
+  const payload = await getPayload({ config: configPromise })
+  const comments = (
+    await payload.find({
+      collection: 'comments',
+      where: {
+        post: { equals: post?.id },
+        status: { equals: 'approved' },
+      },
+      depth: 1, // Important to populate author!
+    })
+  ).docs
 
   return (
     <article className="pt-16 pb-16">
@@ -71,21 +73,20 @@ const comments = (await payload.find({
       <PostHero post={post} />
 
       <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
-
-          <div className="container mt-8">
-        <h3>Comments</h3>
-        {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-
-        {/* ... conditional comment form rendering ... */}
-      </div>
+        <div className="container max-w-[62rem]">
+          <RichText className="mx-auto" data={post.content} enableGutter={false} />
+          <div className="w-full flex justify-center">
+            <div className="mt-8">
+              <h3 className="font-bold">Comments</h3>
+              {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} />
+              ))}
+            </div>
+          </div>
 
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
+              className="mt-12 lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
               docs={post.relatedPosts.filter((post) => typeof post === 'object')}
             />
           )}
