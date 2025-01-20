@@ -438,21 +438,6 @@ export interface Post {
  */
 export interface Comment {
   id: number;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   post: number | Post;
   author: number | User;
   status?: ('pending' | 'approved' | 'rejected') | null;
@@ -1347,7 +1332,6 @@ export interface PartnersSelect<T extends boolean = true> {
  * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
-  content?: T;
   post?: T;
   author?: T;
   status?: T;

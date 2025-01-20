@@ -17,25 +17,9 @@ export const Comments: CollectionConfig = {
     delete: onlyAdmin,     // Only admins can delete comments
   },
   admin: {
-    useAsTitle: 'content', 
+    useAsTitle: 'status', 
   },
   fields: [
-    {
-      label: "Comment Content",
-      name: 'content',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-            HorizontalRuleFeature(),
-          ]
-        },
-      }),
-    },
     {
       name: 'post',
       type: 'relationship',
@@ -56,7 +40,7 @@ export const Comments: CollectionConfig = {
       admin: {
         position: 'sidebar'
       },
-    }
+    },
     // ... other fields as needed
   ],
 };
