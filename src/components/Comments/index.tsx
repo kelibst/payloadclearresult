@@ -20,7 +20,6 @@ type Comment = {
 const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
   const authorName = comment?.author?.firstName + ' ' + comment?.author?.lastName
   const initials = useMemo(() => {
-    // Efficiently calculate initials
     return (
       comment?.author?.firstName?.charAt(0) + comment?.author?.lastName?.charAt(0)
     ).toUpperCase()
@@ -30,7 +29,6 @@ const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
   return (
     <div className="mt-4 p-4 w-full rounded-lg bg-gray-200 text-black dark:bg-black dark:text-white">
       {' '}
-      {/* Add margin between cards */}
       <div className="flex justify-between">
         <div className="flex items-center">
           <div className="mr-2 p-4 rounded-full shadow-sm bg-gray-400 dark:bg-slate-900">
