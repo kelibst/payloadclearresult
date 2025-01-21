@@ -16,7 +16,13 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email', // or other preferred field
   },
-  auth: true,
+  auth: {
+    tokenExpiration: 7200, // How many seconds to keep the user logged in
+    verify: false, // Require email verification before being allowed to authenticate
+    maxLoginAttempts: 5, // Automatically lock a user out after X amount of failed logins
+    lockTime: 600 * 1000, // Time period to allow the max login attempts
+    // More options are available
+  },
   fields: [
     {
       name: 'email',

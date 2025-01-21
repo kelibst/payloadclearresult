@@ -7,7 +7,7 @@ import config from '@payload-config'
 export async function register(formData: FormData) {
   try {
     const payload = await getPayload({ config })
-console.log(formData, 'formData')
+
     // Get form values
     const gender = formData.get('gender')
     const dateOfBirth = formData.get('dateOfBirth')
@@ -38,9 +38,13 @@ console.log(formData, 'formData')
     await payload.create({
       collection: 'users',
       data,
-    })   
+    })
+
+    // Redirect to login page after successful registration
+    return { message: 'success' }
   } catch (error) {
     console.error('Registration error:', error)
-    throw new Error('Registration failed. Please check your input and try again.')
+    const message = error?.cause?.message || error.message || 'Registration failed. Please check your input and try again.';
+    return { message };
   }
 }

@@ -1,6 +1,4 @@
 'use server'
-
-import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { cookies } from 'next/headers'
@@ -20,17 +18,12 @@ export async function login(formData: FormData) {
       },
     })
 
-    // Set the payload token as a cookie
-    const cookieStore = cookies()
-    cookieStore.set('payload-token', result.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-    })
-  } catch (error) {
+   
+    return { message: 'success' }
+  } catch (error: any) {
     console.error('Login error:', error)
-    throw new Error('Login failed. Please check your credentials and try again.')
+    const message = error?.cause?.message || error.message || 'Login failed. Please check your credentials and try again.'
+    return { message }
   }
-  redirect('/home')
+  
 }
