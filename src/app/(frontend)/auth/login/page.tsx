@@ -1,7 +1,17 @@
 import { LoginForm } from '@/components/LoginForm'
 import { login } from './actions'
+import { useAuth } from '@/lib/actions/useAuth'
+import { redirect } from 'next/navigation'
+import { checkAuthStatus } from './checkAuthStatus'
 
-export default function Login() {
+export default async function Login() {
+  const { isAuthenticated } = await checkAuthStatus()
+  console.log(isAuthenticated, 'isauthenticated')
+
+  if (isAuthenticated) {
+    redirect('/dashboard')
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center my-2">
       <div className="max-w-2xl w-full p-4 rounded-lg shadow-lg">

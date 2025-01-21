@@ -7,6 +7,7 @@ import { loginSchema } from '@/lib/schemas/auth'
 import { z } from 'zod'
 import { Toast } from './Toast'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 interface LoginFormProps {
   login: (formData: FormData) => Promise<{ message: any }>
@@ -56,9 +57,11 @@ export function LoginForm({ login }: LoginFormProps) {
     try {
       loginSchema.parse(formDataObject)
       const response = await login(formData)
-      if (response && typeof response === 'object' && response?.message) {
+      if (response && typeof response === 'object' && response?.message !== 'success') {
         setToastMessage(response.message)
         return
+      } else if (response && typeof response === 'object' && response?.message === 'success') {
+        redirect('/dashboard')
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
