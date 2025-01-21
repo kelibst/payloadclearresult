@@ -6,7 +6,6 @@ import { checkAuthStatus } from './checkAuthStatus'
 
 export default async function Login() {
   const { isAuthenticated } = await checkAuthStatus()
-  console.log(isAuthenticated, 'isauthenticated')
 
   if (isAuthenticated) {
     redirect('/dashboard')
