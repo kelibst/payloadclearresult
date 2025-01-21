@@ -22,7 +22,7 @@ function SubmitButton() {
         {pending ? 'Registering...' : 'Register'}
       </button>
       <div>
-        <span className="text-sm text-gray-500">Already have an account? </span>
+        <span className="text-sm">Already have an account? </span>
         <Link href="/auth/login" className="text-blue-500 underline my-4 pt-4">
           Login
         </Link>
@@ -85,7 +85,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
       {toastMessage && <Toast message={toastMessage} />}
       <form action={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium">
             Email
           </label>
           <input
@@ -103,23 +103,29 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div className="relative">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium">
             Password
           </label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            name="password"
-            required
-            className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-          />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute right-[10px] flex items-center px-2 focus:outline-none"
-          >
-            {showPassword ? <FaEyeSlash size={30} /> : <FaEye size={30} />}
-          </button>
+          <div className="flex relative items-center">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              required
+              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-[10px] flex items-center px-2 focus:outline-none"
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-500" size={30} />
+              ) : (
+                <FaEye className="text-gray-500" size={30} />
+              )}
+            </button>
+          </div>
           {errors.find((error) => error.path.includes('password')) && (
             <p className="text-red-500 text-sm mt-1">
               {errors.find((error) => error.path.includes('password'))?.message}
@@ -128,23 +134,29 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div className="relative">
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium">
             Confirm Password
           </label>
-          <input
-            type={showConfirmPassword ? 'text' : 'password'}
-            id="confirmPassword"
-            name="confirmPassword"
-            required
-            className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-          />
-          <button
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="absolute right-[10px] flex items-center px-2 focus:outline-none"
-          >
-            {showConfirmPassword ? <FaEyeSlash size={30} /> : <FaEye size={30} />}
-          </button>
+          <div className="flex relative items-center">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+            />
+            <button
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+              className="absolute right-[10px] flex items-center px-2 focus:outline-none"
+            >
+              {showConfirmPassword ? (
+                <FaEyeSlash className="text-gray-500" size={30} />
+              ) : (
+                <FaEye className="text-gray-500" size={30} />
+              )}
+            </button>
+          </div>
           {errors.find((error) => error.path.includes('confirmPassword')) && (
             <p className="text-red-500 text-sm mt-1">
               {errors.find((error) => error.path.includes('confirmPassword'))?.message}
@@ -153,7 +165,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="firstName" className="block text-sm font-medium">
             First Name
           </label>
           <input
@@ -171,7 +183,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="lastName" className="block text-sm font-medium">
             Last Name
           </label>
           <input
@@ -189,7 +201,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div>
-          <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="dateOfBirth" className="block text-sm font-medium">
             Date of Birth
           </label>
           <input
@@ -206,7 +218,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div>
-          <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="gender" className="block text-sm font-medium">
             Gender
           </label>
           <select
@@ -230,7 +242,7 @@ export function RegisterForm({ register }: RegisterFormProps) {
         </div>
 
         <div>
-          <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="phoneNumber" className="block text-sm font-medium">
             Phone Number
           </label>
           <input

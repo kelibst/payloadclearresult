@@ -106,7 +106,11 @@ export function LoginForm({ login }: LoginFormProps) {
               onClick={togglePasswordVisibility}
               className="absolute right-[10px] flex items-center px-2 focus:outline-none"
             >
-              {showPassword ? <FaEyeSlash size={30} /> : <FaEye size={30} />}
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-500" size={30} />
+              ) : (
+                <FaEye className="text-gray-500" size={30} />
+              )}
             </button>
           </div>
           {errors.find((error) => error.path.includes('password')) && (
