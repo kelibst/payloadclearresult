@@ -28,11 +28,9 @@ export async function login(formData: FormData) {
       sameSite: 'lax',
       path: '/',
     })
-
-    // Redirect to dashboard or home page after successful login
-    redirect('/dashboard')
   } catch (error) {
     console.error('Login error:', error)
     throw new Error('Login failed. Please check your credentials and try again.')
   }
+  redirect('/home')
 }

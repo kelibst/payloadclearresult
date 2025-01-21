@@ -1,6 +1,8 @@
 'use client'
 
 import { useFormStatus } from 'react-dom'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 interface RegisterFormProps {
   register: (formData: FormData) => Promise<void>
@@ -21,8 +23,21 @@ function SubmitButton() {
 }
 
 export function RegisterForm({ register }: RegisterFormProps) {
+  const router = useRouter()
+  const [redirected, setRedirected] = useState(false)
+
+  async function handleSubmit(formData: FormData) {
+    await register(formData)
+    setRedirected(true)
+  }
+
+  if (redirected) {
+    router.push('/auth/login')
+    return null
+  }
+
   return (
-    <form action={register} className="space-y-4">
+    <form action={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
           Email
@@ -95,8 +110,10 @@ export function RegisterForm({ register }: RegisterFormProps) {
           id="gender"
           name="gender"
           className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+          defaultValue=""
+          required
         >
-          <option value="">Select gender</option>
+          <option value="" disabled>Select gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
