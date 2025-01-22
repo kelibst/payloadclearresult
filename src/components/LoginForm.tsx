@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useFormStatus } from 'react-dom'
+import { useRouter } from 'next/navigation'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { loginSchema } from '@/lib/schemas/auth'
 import { z } from 'zod'
@@ -37,6 +38,7 @@ export function LoginForm({ login }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState<z.ZodIssue[]>([])
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const router = useRouter()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -61,7 +63,8 @@ export function LoginForm({ login }: LoginFormProps) {
         setToastMessage(response.message)
         return
       } else if (response && typeof response === 'object' && response?.message === 'success') {
-        redirect('/dashboard')
+        router.refresh()
+        router.push('/dashboard')
       }
     } catch (error) {
       if (error instanceof z.ZodError) {

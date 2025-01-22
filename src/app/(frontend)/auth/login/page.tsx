@@ -1,6 +1,5 @@
 import { LoginForm } from '@/components/LoginForm'
 import { login } from './actions'
-import { useAuth } from '@/lib/actions/useAuth'
 import { redirect } from 'next/navigation'
 import { checkAuthStatus } from './checkAuthStatus'
 
