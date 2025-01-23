@@ -105,7 +105,7 @@ export function LoginForm({ login }: LoginFormProps) {
               id="password"
               name="password"
               required
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+              className="mt-1 text-black block w-full rounded-md border border-gray-300 p-2"
             />
             <button
               type="button"
