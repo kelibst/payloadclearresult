@@ -1,5 +1,5 @@
 'use client'
 
 export default function Dashboard() {
-  return <div className="">conent</div>
+  return <div className="">Home Content</div>
 }
