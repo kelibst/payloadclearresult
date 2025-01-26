@@ -6,6 +6,7 @@ import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { User } from '@/payload-types'
 import { format } from 'date-fns' // Import date-fns
 import { getAuthUser } from '@/app/(frontend)/dashboard/actions'
+import { deleteComment } from '@/app/(frontend)/dashboard/comments/actions'
 
 type Comment = {
   id: number | Comment
@@ -14,7 +15,9 @@ type Comment = {
   createdAt: string
 }
 
-const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
+const Comment: React.FC<{
+  comment: Comment
+}> = ({ comment }) => {
   const authorName = comment?.author?.firstName + ' ' + comment?.author?.lastName
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null)
   const initials = useMemo(() => {
@@ -52,7 +55,23 @@ const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
         <div className="p-2 flex flex-col">
           <RichText data={comment?.content} />
           {canDelete && (
-            <button className="bg-red-500 self-end hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl">
+            <button
+              className="bg-red-500 self-end hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl"
+              onClick={async () => {
+                try {
+                  const result = await deleteComment(Number(comment.id))
+                  if (result.success) {
+                    window.location.reload()
+                  } else {
+                    // Show error message to user
+                    alert(result.message)
+                  }
+                } catch (error) {
+                  console.error('Failed to delete comment:', error)
+                  alert('Failed to delete comment')
+                }
+              }}
+            >
               Delete
             </button>
           )}

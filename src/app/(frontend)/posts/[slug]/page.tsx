@@ -15,6 +15,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import Comment from '@/components/Comments'
+import { getPostsComments } from './actions'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -49,17 +50,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
-  const payload = await getPayload({ config: configPromise })
-  const comments = (
-    await payload.find({
-      collection: 'comments',
-      where: {
-        post: { equals: post?.id },
-        status: { equals: 'approved' },
-      },
-      depth: 1, // Important to populate author!
-    })
-  ).docs
+  const comments = await getPostsComments(post)
 
   return (
     <article className="pt-16 pb-16">

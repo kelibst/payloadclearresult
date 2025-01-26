@@ -49,3 +49,41 @@ export async function createComment(postId: number | Post, content: SerializedEd
     throw error
   }
 }
+
+export type CommentResponse = {
+  success: boolean
+  message?: string
+  commentId?: number
+}
+
+export async function deleteComment(commentId: number): Promise<CommentResponse> {
+  const payload = await getPayload({ config })
+  try {
+    const user = await getAuthUser()
+    const comment = await payload.findByID({
+      collection: 'comments',
+      id: commentId,
+    })
+    //@ts-expect-error
+    if (comment.author?.id !== user.id) {
+      return {
+        success: false,
+        message: 'You are not authorized to delete this comment',
+      }
+    }
+    await payload.delete({
+      collection: 'comments',
+      id: commentId,
+    })
+    return {
+      success: true,
+      commentId: commentId,
+    }
+  } catch (error) {
+    console.error('Failed to delete comment:', error)
+    return {
+      success: false,
+      message: 'Failed to delete comment',
+    }
+  }
+}
