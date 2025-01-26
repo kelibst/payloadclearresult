@@ -1,24 +1,22 @@
-import React, { useMemo } from 'react'
+'use client'
+import React, { useEffect, useMemo, useState } from 'react'
 import RichText from '../RichText'
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
-import { Card, CardContent, CardHeader } from '../ui/card'
-import { Avatar } from '@radix-ui/react-avatar'
+
 import { User } from '@/payload-types'
 import { format } from 'date-fns' // Import date-fns
+import { getAuthUser } from '@/app/(frontend)/dashboard/actions'
 
 type Comment = {
-  id: number
+  id: number | Comment
   content: SerializedEditorState
-  author: {
-    id: number | User
-    firstName: string
-    lastName: string
-  }
+  author: User
   createdAt: string
 }
 
 const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
   const authorName = comment?.author?.firstName + ' ' + comment?.author?.lastName
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null)
   const initials = useMemo(() => {
     return (
       comment?.author?.firstName?.charAt(0) + comment?.author?.lastName?.charAt(0)
@@ -26,8 +24,20 @@ const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
   }, [comment?.author])
   const formattedDate = comment?.createdAt ? format(new Date(comment.createdAt), 'PPP') : ''
 
+  useEffect(() => {
+    async function fetchLoggedInUser() {
+      const user = await getAuthUser()
+      setLoggedInUser(user)
+    }
+    fetchLoggedInUser()
+  }, []) // Empty dependency array means this effect runs once when the component mounts
+
+  const canDelete = useMemo(() => {
+    return loggedInUser?.id === comment?.author?.id
+  }, [loggedInUser, comment?.author])
+
   return (
-    <div className="mt-4 p-4 w-full rounded-lg bg-gray-200 text-black dark:bg-black dark:text-white">
+    <div className="mt-4 p-4 w-full rounded-xl bg-gray-200 text-black dark:bg-black dark:text-white">
       {' '}
       <div className="flex justify-between">
         <div className="flex items-center">
@@ -39,8 +49,13 @@ const Comment: React.FC<{ comment: Comment }> = ({ comment }) => {
             <p> {formattedDate}</p>
           </div>
         </div>
-        <div className="p-2">
+        <div className="p-2 flex flex-col">
           <RichText data={comment?.content} />
+          {canDelete && (
+            <button className="bg-red-500 self-end hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl">
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -19,28 +19,28 @@
 
   :root {
     --background: #ffffff;
-    --foreground:  #0c0c0c;
+    --foreground: #0c0c0c;
 
     --card: #f5f5f5;
-    --card-foreground:  #1e1e1e;
+    --card-foreground: #1e1e1e;
 
-    --popover: #ffffff;;
-    --popover-foreground:  #0c0c0c;
+    --popover: #ffffff;
+    --popover-foreground: #0c0c0c;
 
-    --primary: #00b4a2;   
-    --primary-foreground:  #000000;
+    --primary: #00b4a2;
+    --primary-foreground: #000000;
 
     --secondary: #259c90;
-    --secondary-foreground:  #71ffee;
+    --secondary-foreground: #71ffee;
 
     --muted: #666666;
-    --muted-foreground:  #cccccc;
+    --muted-foreground: #cccccc;
 
     --accent: #ffdd00;
-    --accent-foreground:  #1f1b00;
+    --accent-foreground: #1f1b00;
 
     --destructive: #e53e3e;
-    --destructive-foreground:  #a70505;
+    --destructive-foreground: #a70505;
 
     --border: #e0e0e0;
     --input: #f5f5f5;
@@ -55,33 +55,33 @@
 
   [data-theme='dark'] {
     --background: #0c0c0c;
-    --foreground:  #ffffff; 
+    --foreground: #ffffff;
 
     --card: #1e1e1e;
-    --card-foreground:  #ffffff;
+    --card-foreground: #ffffff;
 
     --popover: #1e1e1e;
-    --popover-foreground:  #ffffff;
+    --popover-foreground: #ffffff;
 
     --primary: #002e29;
-    --primary-foreground:  #0bfce4;
+    --primary-foreground: #0bfce4;
 
     --secondary: #259c90;
-    --secondary-foreground:  #112c29;
+    --secondary-foreground: #112c29;
 
     --muted: #666666;
-    --muted-foreground:  #cccccc;
+    --muted-foreground: #cccccc;
 
     --accent: #fff9d0;
-    --accent-foreground:  #c9ae00;
+    --accent-foreground: #c9ae00;
 
     --destructive: #e53e3e;
-    --destructive-foreground:  #a70505;
+    --destructive-foreground: #a70505;
 
     --border: #e0e0e0;
-    --input: #f5f5f5;
-    --ring: #ffdd00;
 
+    --ring: #ffdd00;
+    --input: #1e1e1e;
     --success: 196 100% 14%;
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
@@ -94,6 +94,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  input,
+  textarea,
+  select {
+    @apply bg-input text-foreground;
+  }
+  [data-theme='dark'] input,
+  [data-theme='dark'] textarea,
+  [data-theme='dark'] select {
+    @apply text-foreground;
   }
 }
 

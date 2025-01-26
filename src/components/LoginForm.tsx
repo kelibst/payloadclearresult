@@ -19,7 +19,7 @@ function SubmitButton() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <button type="submit" disabled={pending} className="w-full disabled:bg-blue-300">
+      <button type="submit" disabled={pending} className="w-full p-4 disabled:bg-blue-300">
         {pending ? 'Logging in...' : 'Login'}
       </button>
       <div className="pt-4">
@@ -86,7 +86,7 @@ export function LoginForm({ login }: LoginFormProps) {
             id="email"
             name="email"
             required
-            className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+            className="mt-1 block text-black  w-full rounded-md border border-gray-300 p-2"
           />
           {errors.find((error) => error.path.includes('email')) && (
             <p className="text-red-500 text-sm mt-1">

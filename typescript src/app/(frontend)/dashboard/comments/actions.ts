@@ -1,11 +1,9 @@
 'use server'
-import { SerializedEditorState } from 'node_modules/lexical/LexicalEditorState'
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Post } from '@/payload-types'
 import { headers as nextHeaders } from 'next/headers'
-import { getAuthUser } from '../actions'
 
 export async function getPosts() {
   try {
@@ -19,7 +17,15 @@ export async function getPosts() {
         },
       },
       populate: {
-        comments: {},
+        comments: {
+          depth: 1,
+          sort: '-createdAt', // Sort comments by creation date, newest first
+          populate: {
+            author: {
+              fields: ['id', 'firstName', 'lastName'], // Specify which user fields to include
+            },
+          },
+        },
       },
     })
     return posts
@@ -29,20 +35,23 @@ export async function getPosts() {
   }
 }
 
-export async function createComment(postId: number | Post, content: SerializedEditorState) {
+export async function createComment(postId: number | Post, content: string) {
   const payload = await getPayload({ config })
   try {
-    const user = await getAuthUser()
+    const headers = await nextHeaders()
+    const result = await payload.auth({ headers })
+    if (!result.user) {
+      throw new Error('You must be logged in to create a comment')
+    }
     const comment = await payload.create({
       collection: 'comments',
       data: {
-        post: Number(postId),
-        author: user.id,
+        post: postId,
+        author: result.user.id,
         content,
         status: 'pending',
       },
     })
-    console.log(comment, 'comment')
     return comment
   } catch (error) {
     console.error('Failed to create comment:', error)

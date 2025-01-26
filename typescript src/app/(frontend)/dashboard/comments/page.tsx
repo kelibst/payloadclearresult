@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState } from 'react'
 import { getPosts, createComment } from './actions'
 import { Comment } from '@/payload-types'
@@ -19,12 +18,11 @@ export default function CommentsPage() {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
-  console.log(posts, 'posts')
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await getPosts()
-        console.log(response, 'responsees')
         setPosts(response.docs)
       } catch (error) {
         console.error('Error fetching posts:', error)
@@ -45,7 +43,7 @@ export default function CommentsPage() {
     setSuccessMessage(null) // Reset success message
 
     try {
-      await createComment(selectedPost, comment)
+      await createComment(selectedPost, JSON.stringify(comment))
       setComment(null) // Clear the comment input
       setSuccessMessage('Comment submitted successfully!') // Set success message
       // Optionally refresh posts to show new comment

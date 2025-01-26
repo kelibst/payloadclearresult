@@ -75,14 +75,16 @@ export default async function Post({ params: paramsPromise }: Args) {
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container max-w-[62rem]">
           <RichText className="mx-auto" data={post.content} enableGutter={false} />
-          <div className="w-full flex justify-center">
-            <div className="mt-8">
-              <h3 className="font-bold">Comments</h3>
-              {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-              ))}
+          {comments.length > 0 && (
+            <div className="w-full">
+              <div className="mt-8">
+                <h3 className="font-bold">Comments</h3>
+                {comments.map((comment) => (
+                  <Comment key={comment.id} comment={comment} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
