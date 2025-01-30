@@ -30,9 +30,9 @@ export async function getAuthUser() {
     const headers = await nextHeaders()
     const result = await payload.auth({ headers })
     if (!result.user) {
-      throw new Error('You must be logged in to create a comment')
+      return { success: false, user: {} }
     }
-    return result.user
+    return { success: true, user: result.user }
   } catch (error) {
     console.error('Error getting user:', error)
     throw new Error('Failed to get user')

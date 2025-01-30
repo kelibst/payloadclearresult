@@ -19,15 +19,14 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { Profiles } from './collections/profiles'
 import { Partners } from './collections/Partners'
 
 import { s3Storage } from '@payloadcms/storage-s3'
 import { Comments } from './collections/Comments'
+import { SocialMediaHandle } from './collections/SocialMediaHandle'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
 
 export default buildConfig({
   admin: {
@@ -73,7 +72,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Profiles, Partners, Comments ],
+  collections: [Pages, Posts, Media, Categories, Users, Partners, Comments],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -103,11 +102,11 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   email: nodemailerAdapter({
-    defaultFromAddress: "kbooster17@gmail.com",
+    defaultFromAddress: 'kbooster17@gmail.com',
     defaultFromName: 'Kekeli',
     // Any Nodemailer transport
     transportOptions: {
-      host: "in-v3.mailjet.com",
+      host: 'in-v3.mailjet.com',
       port: 587,
       auth: {
         user: process.env.MAILJET_API_KEY,

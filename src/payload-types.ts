@@ -6,6 +6,27 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "socialMenu".
+ */
+export type SocialMenu =
+  | {
+      title?: string | null;
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?: {
+          relationTo: 'pages';
+          value: number | Page;
+        } | null;
+        url?: string | null;
+        label: string;
+      };
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -16,7 +37,6 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
-    profiles: Profile;
     partners: Partner;
     comments: Comment;
     redirects: Redirect;
@@ -34,7 +54,6 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    profiles: ProfilesSelect<false> | ProfilesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -761,21 +780,6 @@ export interface TestimonialsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "profiles".
- */
-export interface Profile {
-  id: number;
-  user: number | User;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: string | null;
-  gender?: ('male' | 'female' | 'other') | null;
-  phoneNumber?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
@@ -885,10 +889,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
-      } | null)
-    | ({
-        relationTo: 'profiles';
-        value: number | Profile;
       } | null)
     | ({
         relationTo: 'partners';
@@ -1319,20 +1319,6 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "profiles_select".
- */
-export interface ProfilesSelect<T extends boolean = true> {
-  user?: T;
-  firstName?: T;
-  lastName?: T;
-  dateOfBirth?: T;
-  gender?: T;
-  phoneNumber?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners_select".
  */
 export interface PartnersSelect<T extends boolean = true> {
@@ -1621,6 +1607,7 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  providers?: SocialMenu;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1666,9 +1653,27 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  providers?: T | SocialMenuSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "socialMenu_select".
+ */
+export interface SocialMenuSelect<T extends boolean = true> {
+  title?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

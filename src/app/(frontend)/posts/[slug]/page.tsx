@@ -16,6 +16,10 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import Comment from '@/components/Comments'
 import { getPostsComments } from './actions'
+import { getAuthUser } from '../../dashboard/actions'
+import { RichTextInput } from '@/components/RichTextInput'
+import CreateComment from '@/components/Comments/CreateComent'
+import Link from 'next/link'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -47,6 +51,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const url = '/posts/' + slug
   const post = await queryPostBySlug({ slug })
+  const user = await getAuthUser()
 
   if (!post) return <PayloadRedirects url={url} />
 
@@ -66,24 +71,33 @@ export default async function Post({ params: paramsPromise }: Args) {
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container max-w-[62rem]">
           <RichText className="mx-auto" data={post.content} enableGutter={false} />
-          {comments.length > 0 && (
-            <div className="w-full">
-              <div className="mt-8">
-                <h3 className="font-bold">Comments</h3>
-                {comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
-                ))}
-              </div>
+          {user?.id ? (
+            <CreateComment postId={post?.id} />
+          ) : (
+            <div className="pt-4 my-4 text-blue-400 font-bold">
+              <Link className="" href="/auth/login">
+                Login to comment
+              </Link>
             </div>
           )}
-
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )}
         </div>
+        {comments.length > 0 && (
+          <div className="container w-full  max-w-[62rem]">
+            <div className="mt-8">
+              <h3 className="font-bold">Comments</h3>
+              {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {post.relatedPosts && post.relatedPosts.length > 0 && (
+          <RelatedPosts
+            className="mt-12 lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
+            docs={post.relatedPosts.filter((post) => typeof post === 'object')}
+          />
+        )}
       </div>
     </article>
   )

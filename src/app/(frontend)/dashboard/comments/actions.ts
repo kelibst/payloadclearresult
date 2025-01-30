@@ -4,7 +4,6 @@ import { SerializedEditorState } from 'node_modules/lexical/LexicalEditorState'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Post } from '@/payload-types'
-import { headers as nextHeaders } from 'next/headers'
 import { getAuthUser } from '../actions'
 
 export async function getPosts() {
@@ -32,21 +31,29 @@ export async function getPosts() {
 export async function createComment(postId: number | Post, content: SerializedEditorState) {
   const payload = await getPayload({ config })
   try {
-    const user = await getAuthUser()
+    const result = await getAuthUser()
+    if (!result?.success) {
+      return { error: 'User not loggedIn', success: false, comment: content }
+    }
     const comment = await payload.create({
       collection: 'comments',
       data: {
         post: Number(postId),
-        author: user.id,
+        //@ts-expect-error
+        author: result?.user?.id,
         content,
         status: 'pending',
       },
     })
-    console.log(comment, 'comment')
-    return comment
+    // console.log(comment, 'comment')
+    return { error: '', success: true, comment: comment }
   } catch (error) {
     console.error('Failed to create comment:', error)
-    throw error
+    return {
+      error: error?.message || 'Error hwen adding the comment',
+      success: false,
+      comment: content,
+    }
   }
 }
 
